@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
      return a + b;
    }`;
    PostCode({
-      'input' : codes,
+      'input' : code,
       'action': 'cpp2wast',
       'output_info': 'compiled_code',
       'options' : '-std=c++11 -Os',
