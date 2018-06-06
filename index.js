@@ -40,12 +40,10 @@ function PostCode(codestring, callback) {
   var post_options = {
       host: 'wasmexplorer-service.herokuapp.com',
       port: 443,
-      path: '/service.php',
+      path: 'service.php',
       method: 'POST',
       headers: {
-          'Referer': 'https://mbebenita.github.io/WasmExplorer/',
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Origin': 'https://mbebenita.github.io',
           'Content-Length': Buffer.byteLength(post_data),
       }
   };
