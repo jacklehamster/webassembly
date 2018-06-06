@@ -6,10 +6,26 @@ const child_process = require('child_process')
 
 app.get('/', (req, res) => {  
 
-   PostCode(`int sum(int a, int b) {
+   const code = `int sum(int a, int b) {
      return a + b;
-   }`, chunk => {
-      res.send(chunk);
+   }`;
+   PostCode({
+      'input' : codes,
+      'action': 'cpp2wast',
+      'output_info': 'compiled_code',
+      'options' : '-std=c++11 -Os',
+  }, chunk => {
+    PostCode({
+        'input' : chunk,
+        'action' : 'wast2assembly',
+        }, chunk => {
+            PostCode({
+                'input' : chunk,
+                'action' : 'wast2wasm',
+            }, chunk => {
+                  res.send(chunk);
+            });
+        });
    });
 
 
@@ -27,14 +43,9 @@ const querystring = require('querystring');
 const http = require('http');
 const fs = require('fs');
 
-function PostCode(codestring, callback) {
+function PostCode(params, callback) {
   // Build the post string from an object
-  var post_data = querystring.stringify({
-      'input' : codestring,
-      'action': 'cpp2wast',
-      'output_info': 'compiled_code',
-      'options' : '-std=c++11 -Os',
-  });
+  var post_data = querystring.stringify(params);
 
   // An object of options to indicate where to post to
   var post_options = {
