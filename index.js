@@ -22,7 +22,7 @@ child_process.exec('./emsdk-portable/emsdk update', function(err, data) {
              child_process.exec('./emsdk-portable/emsdk activate latest', function(err, data) {
         console.log(err)
         console.log(data.toString());
-child_process.exec('source ./emsdk-portable/emsdk_env.sh', function(err, data) {
+child_process.exec('. ./emsdk-portable/emsdk_env.sh', function(err, data) {
             console.log(err)
         console.log(data.toString());
 });
