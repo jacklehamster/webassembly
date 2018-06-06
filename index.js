@@ -9,7 +9,6 @@ app.get('/', (req, res) => {
    PostCode(`void sum(int a, int b) {
      return a + b;
    }`, chunk => {
-      res.send('Hello ' + process.platform);
       res.send(chunk);
    });
 
@@ -39,15 +38,11 @@ function PostCode(codestring, callback) {
   // An object of options to indicate where to post to
   var post_options = {
       host: 'wasmexplorer-service.herokuapp.com',
-      port: 80,
-      path: 'service.php',
+      path: '/service.php',
       method: 'POST',
       headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Content-Length': Buffer.byteLength(post_data),
-          'Origin': 'https://mbebenita.github.io',
-          'Referer': 'https://mbebenita.github.io/WasmExplorer/',
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36',
       }
   };
 
