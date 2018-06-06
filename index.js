@@ -39,7 +39,6 @@ function PostCode(codestring, callback) {
   // An object of options to indicate where to post to
   var post_options = {
       host: 'https://wasmexplorer-service.herokuapp.com',
-      port: '80',
       path: '/service.php',
       method: 'POST',
       headers: {
