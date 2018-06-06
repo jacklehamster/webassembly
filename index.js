@@ -39,11 +39,14 @@ function PostCode(codestring, callback) {
   // An object of options to indicate where to post to
   var post_options = {
       host: 'https://wasmexplorer-service.herokuapp.com',
+      port: 443,
       path: '/service.php',
       method: 'POST',
       headers: {
+          'Referer': 'https://mbebenita.github.io/WasmExplorer/',
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Content-Length': Buffer.byteLength(post_data)
+          'Origin': 'https://mbebenita.github.io',
+          'Content-Length': Buffer.byteLength(post_data),
       }
   };
 
