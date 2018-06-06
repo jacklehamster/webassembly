@@ -6,7 +6,7 @@ const child_process = require('child_process')
 
 app.get('/', (req, res) => {  
 
-   PostCode(`void sum(int a, int b) {
+   PostCode(`int sum(int a, int b) {
      return a + b;
    }`, chunk => {
       res.send(chunk);
@@ -20,6 +20,7 @@ app.listen(PORT, () => {
    console.log('Test ' + PORT);
 });
 
+console.log('Platform: ' + process.platform);
 
 // We need this to build our post string
 const querystring = require('querystring');
