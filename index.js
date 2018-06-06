@@ -15,14 +15,22 @@ app.get('/', (req, res) => {
       'output_info': 'compiled_code',
       'options' : '-std=c++11 -Os',
   }, chunk => {
+    res.send("<br>\n");
+    res.send("<br>\n");
+    res.send(chunk);
     PostCode({
         'input' : chunk,
         'action' : 'wast2assembly',
         }, chunk => {
+            res.send("<br>\n");
+            res.send("<br>\n");
+            res.send(chunk);
             PostCode({
                 'input' : chunk,
                 'action' : 'wast2wasm',
             }, chunk => {
+                  res.send("<br>\n");
+                  res.send("<br>\n");
                   res.send(chunk);
             });
         });
