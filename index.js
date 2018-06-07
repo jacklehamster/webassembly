@@ -1,8 +1,13 @@
 const express = require('express');
+const child_process = require('child_process')
+const cors = require('cors');
+
 const app = express();
 const PORT = process.env.PORT || 5000
 
-const child_process = require('child_process')
+
+
+app.use(cors({origin: '*'}));
 
 app.get('/compile', (req, res) => {  
 
