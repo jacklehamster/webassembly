@@ -6,7 +6,9 @@ const app = express();
 const PORT = process.env.PORT || 5000
 
 
-app.get('/', (req, res) => {  
+app.use(cors({origin: '*'}));
+
+app.get('/compile', (req, res) => {  
 
    const code = req.query.code || '';
    PostCode({
