@@ -8,6 +8,10 @@ const PORT = process.env.PORT || 5000
 
 app.use(cors({origin: '*'}));
 
+app.get('/', (req, res) => {
+  req.send("Hello World");
+});
+
 app.get('/compile', (req, res) => {  
 
    const code = req.query.code || '';
