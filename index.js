@@ -9,6 +9,11 @@ const PORT = process.env.PORT || 5000
 
 app.use(cors({origin: '*', "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"}));
 
+app.use(function(req, res, next) {
+    res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-eval'; object-src 'self'");
+    return next();
+});
+
 app.get('/compile', (req, res) => {  
 
    const code = req.query.code || '';
