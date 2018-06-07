@@ -3,7 +3,24 @@ const child_process = require('child_process')
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
+
+/*
+function compile(code, callback) {
+  fetch('https://webassembly.herokuapp.com/compile?code=' + encodeURIComponent(code))
+      .then(response => response.arrayBuffer())
+      .then(bits => WebAssembly.compile(bits))
+      .then(module => { return new WebAssembly.Instance(module) })
+      .then(instance => {
+         for(var a in instance.exports) {
+             if(typeof instance.exports[a] === 'function') {
+                callback(instance.exports[a]);
+                break;
+             }
+         }
+      });
+}
+*/
 
 
 app.use(cors({origin: '*'}));
