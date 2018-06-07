@@ -26,6 +26,7 @@ app.get('/compile', (req, res) => {
           'action' : 'wast2wasm',
       }, chunk => {
           let buff = new Buffer(chunk.split("-----WASM binary data\n")[1], 'base64');  
+          res.setHeader('Content-Type', 'application/wasm');
           res.send(buff);
       });
   });
