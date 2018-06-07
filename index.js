@@ -6,9 +6,7 @@ const child_process = require('child_process')
 
 app.get('/', (req, res) => {  
 
-   const code = `int sum(int a, int b) {
-     return a + b;
-   }`;
+   const code = req.query.code || '';
    PostCode({
       'input' : code,
       'action': 'cpp2wast',
