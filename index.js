@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 5000
 
 
-app.get('/compile', (req, res) => {  
+app.get('/', (req, res) => {  
 
    const code = req.query.code || '';
    PostCode({
@@ -29,7 +29,7 @@ app.get('/compile', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Platform: ' + process.platform);
+   console.log('Platform: ' + process.platform);
    console.log('listen: ' + PORT);
 });
 
