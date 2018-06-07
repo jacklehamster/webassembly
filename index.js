@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 5000
 
 
 
-app.use(cors({origin: '*'}));
+app.use(cors({origin: '*', "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"}));
 
 app.get('/compile', (req, res) => {  
 
