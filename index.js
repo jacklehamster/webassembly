@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 5000
 
 const child_process = require('child_process')
 
-app.get('/', (req, res) => {  
+app.get('/compile', (req, res) => {  
 
    const code = req.query.code || '';
    PostCode({
@@ -27,10 +27,10 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-   console.log('Test ' + PORT);
+  console.log('Platform: ' + process.platform);
+   console.log('listen: ' + PORT);
 });
 
-console.log('Platform: ' + process.platform);
 
 // We need this to build our post string
 const querystring = require('querystring');
