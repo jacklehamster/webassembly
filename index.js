@@ -11,30 +11,12 @@ app.get('/', (req, res) => {
    }`;
    PostCode({
       'input' : code,
-      'action': 'cpp2wast',
+      'action': 'cpp2wasm',
       'output_info': 'compiled_code',
       'options' : '-std=c++11 -Os',
   }, chunk => {
-    PostCode({
-        'input' : chunk,
-        'action' : 'wast2assembly',
-        }, chunk => {
-            res.send(chunk);
-            return;
-            PostCode({
-                'input' : chunk,
-                'action' : 'wast2wasm',
-            }, chunk => {
-                  res.send("<br>\n");
-                  res.send("<br>\n");
-                  res.send(chunk);
-            });
-        });
-   });
-
-
-
-});
+    res.send(chunk);
+  });
 
 app.listen(PORT, () => {
    console.log('Test ' + PORT);
