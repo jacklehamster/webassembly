@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
   }, chunk => {
     res.send(chunk);
   });
+});
 
 app.listen(PORT, () => {
    console.log('Test ' + PORT);
