@@ -17,9 +17,9 @@ app.get('/compile', (req, res) => {
    const code = req.query.code || '';
    PostCode({
       'input' : code,
-      'action': 'cpp2wast',
+      'action': 'c2wast',
       'output_info': 'compiled_code',
-      'options' : '-std=c++11 -Os',
+      'options' : '-Os',
   }, chunk => {
       PostCode({
           'input' : chunk,
