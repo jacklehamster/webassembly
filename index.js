@@ -19,7 +19,8 @@ app.get('/', (req, res) => {
           'input' : chunk,
           'action' : 'wast2wasm',
       }, chunk => {
-            res.send(chunk.split("-----WASM binary data\n")[1]);
+          let buff = new Buffer(chunk.split("-----WASM binary data\n")[1], 'base64');  
+          res.send(buff);
       });
   });
 
