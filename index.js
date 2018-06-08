@@ -1,24 +1,27 @@
 const express = require('express');
 const child_process = require('child_process')
 const cors = require('cors');
+const os = require("os");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 
-/*
 function compile(code, callback) {
-  const url = 'https://webassembly.herokuapp.com/compile?code=';
+  const url = 'https://' + os.hostname() + '/compile?code=';
   WebAssembly.instantiateStreaming(fetch(url + encodeURIComponent(code)), {})
-    .then(({instance}) => console.log(instance.exports._Z3sumii(2,2)));
+    .then(({instance}) => callback(instance.exports));
 }
-*/
 
 
 app.use(cors({origin: '*'}));
 
 app.get('/', (req, res) => {
   res.send("Hello World");
+});
+
+app.get('/script', (req, res) => {
+  res.send(compile.toString());
 });
 
 app.get('/compile', (req, res) => {  
