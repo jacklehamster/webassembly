@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/script.js', (req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/javascript'});
+  res.setHeader('Content-Type', 'text/javascript');
   res.send(compile.toString());
 });
 
