@@ -1,14 +1,13 @@
 const express = require('express');
 const child_process = require('child_process')
 const cors = require('cors');
-const os = require("os");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 
 function compile(code, callback) {
-  const url = 'https://' + os.hostname() + '/compile?code=';
+  const url = 'https://webassembly.herokuapp.com/compile?code=';
   WebAssembly.instantiateStreaming(fetch(url + encodeURIComponent(code)), {})
     .then(({instance}) => callback(instance.exports));
 }
