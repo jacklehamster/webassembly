@@ -19,7 +19,8 @@ app.get('/', (req, res) => {
   res.send("Hello World");
 });
 
-app.get('/script', (req, res) => {
+app.get('/script.js', (req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/javascript'});
   res.send(compile.toString());
 });
 
