@@ -15,9 +15,6 @@ app.get('/', (req, res) => {
       Click <a href='https://${req.headers.host}/?source=1'>here</a> for the source
     </div>
 
-    <div id='log'>
-    </div>
-
     <script src="https://${req.headers.host}/script.js"></script>
 
     <script>
@@ -27,14 +24,12 @@ app.get('/', (req, res) => {
             double add(double a, double b) {
               return a + b;
             }
-          \`, exports => {
+          \`, export => {
             callback(exports.add(a, b));
           });
       }
 
-      add(11.05, 5.5, result => {
-        log.innerText = "11.05 + 5.5 = " + result;
-      });
+      add(11.05, 5.5, console.log);
     </script>
   `;
 
