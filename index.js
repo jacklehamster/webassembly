@@ -3,6 +3,8 @@ const child_process = require('child_process')
 const cors = require('cors');
 const mustache = require('mustache');
 const fs = requires('fs');
+const querystring = require('querystring');
+const http = require('http');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -69,11 +71,6 @@ app.listen(PORT, () => {
    console.log('listen: ' + PORT);
 });
 
-
-// We need this to build our post string
-const querystring = require('querystring');
-const http = require('http');
-const fs = require('fs');
 
 function PostCode(params, callback) {
   // Build the post string from an object
