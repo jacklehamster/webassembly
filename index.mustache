@@ -1,0 +1,37 @@
+<h1>Hello, this is a tool for compiling WebAssembly</h1>
+
+    <div>
+      Click 
+        <a href='https://{{ host }}/?source=1'>here</a>
+      for the source
+    </div>
+
+    <script src="https://{{ host }}/script.js"></script>
+
+    <script>
+      let add;
+      compile(`
+        extern "C" {  double add(double a, double b); }
+        double add(double a, double b) {
+          return a + b;
+        }
+      `, exports => {
+        add = exports.add;
+      });
+
+      function onChange() {
+        document.getElementById('result').innerText =
+          add(
+            document.getElementById('a').value,
+            document.getElementById('b').value
+          );
+      }
+    </script>
+
+    <div>
+      <input id='a' type='text' onkeyup="onChange()"> 
+        + 
+      <input id='b' type='text' onkeyup="onChange()"> 
+        = 
+      <span id='result'></span>
+    </div>

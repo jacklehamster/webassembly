@@ -18,6 +18,7 @@
   "homepage": "https://github.com/jacklehamster/webassembly#readme",
   "dependencies": {
     "cors": "^2.8.4",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "mustache": "^2.3.0"
   }
 }

@@ -1,6 +1,8 @@
 const express = require('express');
 const child_process = require('child_process')
 const cors = require('cors');
+const mustache = require('mustache');
+const fs = requires('fs');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -8,44 +10,14 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({origin: '*'}));
 
 app.get('/', (req, res) => {
-  const script = `
-    <h1>Hello, this is a tool for compiling WebAssembly</h1>
+  const options = { host: req.headers.host };
 
-    <div>
-      Click <a href='https://${req.headers.host}/?source=1'>here</a> for the source
-    </div>
-
-    <script src="https://${req.headers.host}/script.js"></script>
-
-    <script>
-      let add;
-      compile(\`
-        extern "C" {  double add(double a, double b); }
-        double add(double a, double b) {
-          return a + b;
-        }
-      \`, exports => {
-        add = exports.add;
-      });
-
-      function onChange() {
-        document.getElementById('result').innerText = add(document.getElementById('a').value, document.getElementById('b').value);
-      }
-    </script>
-
-    <div>
-      <input id='a' type='text' onkeyup="onChange()"> 
-        + 
-      <input id='b' type='text' onkeyup="onChange()"> 
-        = 
-      <span id='result'></span>
-    </div>
-
-
-  `;
-
-  res.setHeader('Content-Type', req.query.source ? 'text/plain' : 'text/html');
-  res.send(script);
+  fs.readFile("index.mustache", function (err, data) {
+    if (err) throw err;
+    const output = mustache.render(data.toString(), options);
+    res.setHeader('Content-Type', req.query.source ? 'text/plain' : 'text/html');
+    res.send(output);
+  });
 });
 
 app.get('/script.js', (req, res) => {
