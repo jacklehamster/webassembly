@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
     <h1>Hello, this is a tool for compiling WebAssembly</h1>
 
     <div>
-      Click <a href='https://${req.headers.host}/?source=1'>here</a> for the source
+      Click <a href='view-source:https://${req.headers.host}/'>here</a> for the source
     </div>
 
     <script src="https://${req.headers.host}/script.js"></script>
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
             double add(double a, double b) {
               return a + b;
             }
-          \`, export => {
+          \`, exports => {
             callback(exports.add(a, b));
           });
       }
@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
     </script>
   `;
 
-  res.setHeader('Content-Type', req.query.source ? 'text/plain' : 'text/html');
+  res.setHeader('Content-Type', 'text/html');
   res.send(script);
 });
 
