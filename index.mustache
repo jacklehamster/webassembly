@@ -8,14 +8,16 @@
 
     <script src="https://{{ host }}/script.js"></script>
 
-    <script>
-      let add;
-      compile(`
+    <div id="code" style="background-color: #445500">
         extern "C" {  double add(double a, double b); }
         double add(double a, double b) {
           return a + b;
         }
-      `, exports => {
+    </div>
+
+    <script>
+      let add;
+      compile(document.getElementById('code').innerText, exports => {
         add = exports.add;
       });
 
