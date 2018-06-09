@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
     <script>
       function add(a, b, callback) {
           compile(\`
-            export "C" {  double add(double a, double b); }
+            extern "C" {  double add(double a, double b); }
             double add(double a, double b) {
               return a + b;
             }
