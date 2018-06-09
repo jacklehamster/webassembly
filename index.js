@@ -28,8 +28,6 @@ app.get('/', (req, res) => {
             callback(exports.add(a, b));
           });
       }
-
-      add(11.05, 5.5, console.log);
     </script>
   `;
 
