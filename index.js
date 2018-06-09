@@ -48,7 +48,9 @@ app.get('/script.js', (req, res) => {
           for(let i in instance.exports) {
             obj[i] = instance.exports[i];
           }
-          callback(obj);
+          if(callback) {
+            callback(obj);
+          }
         });
       return obj;
     }
