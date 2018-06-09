@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
     </script>
   `;
 
-  res.setHeader('Content-Type', 'text/html');
+  res.setHeader('Content-Type', req.query.source ? 'text/plain' : 'text/html');
   res.send(script);
 });
 
