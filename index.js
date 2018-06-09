@@ -7,9 +7,16 @@ const PORT = process.env.PORT || 5000;
 
 
 function compile(code, callback) {
+  const obj = {};
   const url = 'https://webassembly.herokuapp.com/compile?code=';
   WebAssembly.instantiateStreaming(fetch(url + encodeURIComponent(code)), {})
-    .then(({instance}) => callback(instance.exports));
+    .then(({instance}) => {
+      for(let i in instance.exports) {
+        obj[i] = instance.exports[i];
+      }
+      callback(instance.exports);
+    });
+  return obj;
 }
 
 
