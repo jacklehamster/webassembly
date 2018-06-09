@@ -29,9 +29,7 @@ app.get('/', (req, res) => {
       });
 
       function onChange() {
-        add(document.getElementById('a').value, document.getElementById('b').value, result => {
-          document.getElementById('result').innerText = result;
-        });
+        document.getElementById('result').innerText = add(document.getElementById('a').value, document.getElementById('b').value);
       }
     </script>
 
