@@ -9,9 +9,13 @@ app.use(cors({origin: '*'}));
 
 app.get('/', (req, res) => {
   const script = `
-    Hello, this is a tool for compiling WebAssembly
+    <h1>Hello, this is a tool for compiling WebAssembly</h1>
 
-    <script src="https://${req.headers.host}/script.js">
+    <div>
+      Click <a href='https://${req.headers.host}/?source=1'>here</a> for the source
+    </div>
+
+    <script src="https://${req.headers.host}/script.js"></script>
 
     <script>
       function add(a, b, callback) {
@@ -29,7 +33,7 @@ app.get('/', (req, res) => {
     </script>
   `;
 
-  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Type', req.query.source ? 'text/plain' : 'text/html');
   res.send(script);
 });
 
