@@ -2,7 +2,7 @@ const express = require('express');
 const child_process = require('child_process')
 const cors = require('cors');
 const mustache = require('mustache');
-const fs = requires('fs');
+const fs = require('fs');
 const querystring = require('querystring');
 const http = require('http');
 
