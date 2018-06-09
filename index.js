@@ -8,7 +8,29 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({origin: '*'}));
 
 app.get('/', (req, res) => {
-  res.send("Hello World");
+  const script = `
+    Hello, this is a tool for compiling WebAssembly
+
+    <script src="https://${req.headers.host}/script.js">
+
+    <script>
+      function add(a, b, callback) {
+          compile(\`
+            export "C" {  double add(double a, double b); }
+            double add(double a, double b) {
+              return a + b;
+            }
+          \`, export => {
+            callback(export.add(a, b));
+          });
+      }
+
+      add(11.05, 5.5, console.log);
+    </script>
+  `;
+
+  res.setHeader('Content-Type', 'text/plain');
+  res.send(script);
 });
 
 app.get('/script.js', (req, res) => {
@@ -22,7 +44,7 @@ app.get('/script.js', (req, res) => {
           for(let i in instance.exports) {
             obj[i] = instance.exports[i];
           }
-          callback(instance.exports);
+          callback(obj);
         });
       return obj;
     }
