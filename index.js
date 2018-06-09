@@ -31,7 +31,7 @@ app.get('/script.js', (req, res) => {
   const script = `
     function compile(code, callback) {
       const obj = {};
-      const url = 'https://${req..headers.host}/compile?code=';
+      const url = 'https://${req.headers.host}/compile?code=';
       WebAssembly.instantiateStreaming(fetch(url + encodeURIComponent(code)), {})
         .then(({instance}) => {
           for(let i in instance.exports) {
