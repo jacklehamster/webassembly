@@ -18,17 +18,32 @@ app.get('/', (req, res) => {
     <script src="https://${req.headers.host}/script.js"></script>
 
     <script>
-      function add(a, b, callback) {
-          compile(\`
-            extern "C" {  double add(double a, double b); }
-            double add(double a, double b) {
-              return a + b;
-            }
-          \`, exports => {
-            callback(exports.add(a, b));
-          });
+      let add;
+      compile(\`
+        extern "C" {  double add(double a, double b); }
+        double add(double a, double b) {
+          return a + b;
+        }
+      \`, exports => {
+        add = exports.add;
+      });
+
+      function onChange() {
+        add(document.getElementById('a').value, document.getElementById('b'), result => {
+          document.getElementById('result').innerText = result;
+        });
       }
     </script>
+
+    <div>
+      <input id='a' type='text' onkeyup="onChange()"> 
+        + 
+      <input id='b' type='text' onkeyup="onChange()"> 
+        = 
+      <span id='result'></span>
+    </div>
+
+
   `;
 
   res.setHeader('Content-Type', req.query.source ? 'text/plain' : 'text/html');
