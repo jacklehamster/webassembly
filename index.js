@@ -1,7 +1,7 @@
 const express = require('express');
 const child_process = require('child_process')
 const cors = require('cors');
-const os = request('os');
+const os = require('os');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
