@@ -1,7 +1,6 @@
 const express = require('express');
 const child_process = require('child_process')
 const cors = require('cors');
-const os = require('os');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,6 +28,20 @@ app.get('/', (req, res) => {
 
 app.get('/script.js', (req, res) => {
   res.setHeader('Content-Type', 'text/javascript');
+  const script = `
+    function compile(code, callback) {
+      const obj = {};
+      const url = 'https://${req..headers.host}/compile?code=';
+      WebAssembly.instantiateStreaming(fetch(url + encodeURIComponent(code)), {})
+        .then(({instance}) => {
+          for(let i in instance.exports) {
+            obj[i] = instance.exports[i];
+          }
+          callback(instance.exports);
+        });
+      return obj;
+    }
+  `;
   res.send(script);
 });
 
