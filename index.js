@@ -5,21 +5,6 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const script = `
-  function compile(code, callback) {
-    const obj = {};
-    const url = 'https://${os.hostname()}/compile?code=';
-    WebAssembly.instantiateStreaming(fetch(url + encodeURIComponent(code)), {})
-      .then(({instance}) => {
-        for(let i in instance.exports) {
-          obj[i] = instance.exports[i];
-        }
-        callback(instance.exports);
-      });
-    return obj;
-  }
-`;
-
 app.use(cors({origin: '*'}));
 
 app.get('/', (req, res) => {
