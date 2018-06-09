@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
       });
 
       function onChange() {
-        add(document.getElementById('a').value, document.getElementById('b'), result => {
+        add(document.getElementById('a').value, document.getElementById('b').value, result => {
           document.getElementById('result').innerText = result;
         });
       }
