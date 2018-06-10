@@ -16,7 +16,7 @@ function renderHTML(res, req, code, template) {
   if(code !== null && template !== null) {
     const output = mustache.render(template, {
       code,
-      host: req.headers.host,
+      host: "https",
       protocol: req.protocol,
       source: "https://github.com/jacklehamster/webassembly",
     });
