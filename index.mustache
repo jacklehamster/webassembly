@@ -2,40 +2,62 @@
 
     <div>
       Click 
-        <a href='https://{{ host }}/?source=1'>here</a>
+        <a href='{{ source }}'>here</a>
       for the source
     </div>
 
-    <script src="https://{{ host }}/script.js"></script>
+    <script src="{{ protocol }}://{{ host }}/script.js"></script>
 
-    <div id="code" style="background-color: #CCEE55; padding: 5px; margin: 5px">
-      <pre>
-        extern "C" {  double add(double a, double b); }
-        double add(double a, double b) {
-          return a + b;
-        }
-      </pre>
-    </div>
+    <textarea cols=80 rows=15 id="code"
+      style="
+        font-family: Verdana, Geneva, sans-serif;
+        background-color: #EEFF99; padding: 5px; margin: 5px"
+      onkeyup="onCodeUpdate()">{{ code }}</textarea>
 
     <script>
-      let add;
-      compile(document.getElementById('code').innerText, exports => {
-        add = exports.add;
-      });
+      let exportFunctions;
+      let lastCodeValue = null;
+      function onCodeUpdate() {
+        if(lastCodeValue !== document.getElementById('code').value) {
+          lastCodeValue = document.getElementById('code').value;
+          add = null;
+          compile(document.getElementById('code').value, exports => {
+            exportFunctions = exports;
+            updateEports(exportFunctions);
+          });
+        }
+      }
+      onCodeUpdate();
 
-      function onChange() {
-        document.getElementById('result').innerText =
-          add(
-            document.getElementById('a').value,
-            document.getElementById('b').value
-          );
+      function updateEports(exports) {
+        const divExport = document.getElementById('export');
+        divExport.innerHTML = '';
+        for (let id in exports) {
+          if (typeof exports[id] === 'function') {
+            const div = divExport.appendChild(document.createElement('div'));
+            div.appendChild(document.createTextNode(`${id} (`));
+            const inputA = div.appendChild(document.createElement('input'));
+            div.appendChild(document.createTextNode(','));
+            const inputB = div.appendChild(document.createElement('input'));
+            div.appendChild(document.createTextNode(') ='));
+            const result = div.appendChild(document.createElement('span'));
+            inputA.addEventListener('keyup', () => {
+              onChange(inputA, inputB, result, exports[id]);
+            });
+            inputB.addEventListener('keyup', () => {
+              onChange(inputA, inputB, result, exports[id]);
+            });
+            inputA.value = Math.floor(Math.random() * 1000) / 10;
+            inputB.value = Math.floor(Math.random() * 1000) / 10;
+            onChange(inputA, inputB, result, exports[id]);
+          }
+        }
+      }
+
+      function onChange(a,b,result,func) {
+        result.innerText = func(a.value, b.value);
       }
     </script>
 
-    <div>
-      <input id='a' type='text' onkeyup="onChange()"> 
-        + 
-      <input id='b' type='text' onkeyup="onChange()"> 
-        = 
-      <span id='result'></span>
+    <div id="export">
     </div>

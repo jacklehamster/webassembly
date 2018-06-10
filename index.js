@@ -11,59 +11,69 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors({origin: '*'}));
 
+
+function renderHTML(res, req, code, template) {
+  if(code !== null && template !== null) {
+    const output = mustache.render(template, {
+      code,
+      host: req.headers.host,
+      protocol: req.protocol,
+      source: "https://github.com/jacklehamster/webassembly",
+    });
+    res.setHeader('Content-Type', 'text/html');
+    res.send(output);
+  }
+}
+
 app.get('/', (req, res) => {
-  const options = { host: req.headers.host };
+  let code = null, template = null;
+  fs.readFile("code.cpp", function(err, data) {
+    if (err) throw err;
+    code = data.toString();
+    renderHTML(res, req, code, template);
+  });
 
   fs.readFile("index.mustache", function (err, data) {
     if (err) throw err;
-    const output = mustache.render(data.toString(), options);
-    res.setHeader('Content-Type', req.query.source ? 'text/plain' : 'text/html');
-    res.send(output);
+    template = data.toString();
+    renderHTML(res, req, code, template);
   });
 });
 
 app.get('/script.js', (req, res) => {
-  res.setHeader('Content-Type', 'text/javascript');
-  const script = `
-    function compile(code, callback) {
-      const obj = {};
-      const url = 'https://${req.headers.host}/compile?code=';
-      WebAssembly.instantiateStreaming(fetch(url + encodeURIComponent(code)), {})
-        .then(({instance}) => {
-          for(let i in instance.exports) {
-            obj[i] = instance.exports[i];
-          }
-          if(callback) {
-            callback(obj);
-          }
-        });
-      return obj;
-    }
-  `;
-  res.send(script);
+  fs.readFile("script.mustache", function (err, data) {
+    if (err) throw err;
+    const output = mustache.render(data.toString(), {
+      host: req.headers.host,
+      protocol: req.protocol,
+    });
+    res.setHeader('Content-Type', 'text/javascript');
+    res.send(output);
+  });
 });
 
 app.get('/compile', (req, res) => {  
-
    const code = req.query.code || '';
    PostCode({
-      'input' : code,
-      'action': 'cpp2wast',
-      'output_info': 'compiled_code',
-      'options' : '-std=c++11 -Os',
+      input : code,
+      action: 'cpp2wast',
+      options : '-std=c++11 -Os',
   }, chunk => {
       PostCode({
-          'input' : chunk,
-          'action' : 'wast2wasm',
+          input : chunk,
+          action : 'wast2wasm',
       }, chunk => {
-          let buff = new Buffer(chunk.split("-----WASM binary data\n")[1], 'base64');  
+        const WASM_TAG = "-----WASM binary data\n";
+        if (chunk.indexOf(WASM_TAG)=== 0) {
+          let buff = new Buffer(chunk.split(WASM_TAG)[1], 'base64');  
           res.setHeader('Content-Type', 'application/wasm');
           res.send(buff);
+        } else {
+          res.setHeader('Content-Type', 'application/wasm');
+          res.send(new Buffer(""));
+        }
       });
   });
-
-
-
 });
 
 app.listen(PORT, () => {
