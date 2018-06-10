@@ -50,6 +50,13 @@ app.get('/script.js', (req, res) => {
   });
 });
 
+app.get('/favicon.ico', (req, res) => {
+  fs.readFile("favicon.ico", function (err, data) {
+    res.setHeader('Content-Type', 'image/x-icon');
+    res.send(data);
+  });
+});
+
 app.get('/compile', (req, res) => {  
    const code = req.query.code || '';
    PostCode({
