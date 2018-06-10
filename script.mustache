@@ -1,6 +1,6 @@
 function compile(code, callback) {
   const obj = {};
-  const url = '{{ protocol }}://{{ host }}/compile?code=';
+  const url = '//{{ host }}/compile?code=';
   WebAssembly.instantiateStreaming(fetch(url + encodeURIComponent(code)), {})
     .then(({instance}) => {
       for(let i in instance.exports) {

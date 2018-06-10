@@ -44,7 +44,6 @@ app.get('/script.js', (req, res) => {
     if (err) throw err;
     const output = mustache.render(data.toString(), {
       host: req.headers.host,
-      protocol: req.protocol,
     });
     res.setHeader('Content-Type', 'text/javascript');
     res.send(output);
