@@ -34,28 +34,33 @@
         divExport.innerHTML = '';
         for (let id in exports) {
           if (typeof exports[id] === 'function') {
+            const func = exports[id];
             const div = divExport.appendChild(document.createElement('div'));
             div.appendChild(document.createTextNode(`${id} (`));
-            const inputA = div.appendChild(document.createElement('input'));
-            div.appendChild(document.createTextNode(','));
-            const inputB = div.appendChild(document.createElement('input'));
+            const inputs = [];
+            for(let i=0; i<func.length; i++) {
+              if(i!==0) {
+                div.appendChild(document.createTextNode(','));
+              }
+              const input = div.appendChild(document.createElement('input'));
+              inputs.push(input);
+            }
             div.appendChild(document.createTextNode(') ='));
             const result = div.appendChild(document.createElement('span'));
-            inputA.addEventListener('keyup', () => {
-              onChange(inputA, inputB, result, exports[id]);
+
+            inputs.forEach(input => {
+              input.value = Math.floor(Math.random() * 100);
+              input.addEventListener('keyup', () => {
+                onChange(inputs, result, func);
+              });
             });
-            inputB.addEventListener('keyup', () => {
-              onChange(inputA, inputB, result, exports[id]);
-            });
-            inputA.value = Math.floor(Math.random() * 1000) / 10;
-            inputB.value = Math.floor(Math.random() * 1000) / 10;
-            onChange(inputA, inputB, result, exports[id]);
+            onChange(inputs, result, func);
           }
         }
       }
 
-      function onChange(a,b,result,func) {
-        result.innerText = func(a.value, b.value);
+      function onChange(inputs,result,func) {
+        result.innerText = func.apply(null, inputs.map(input => input.value));
       }
     </script>
 
