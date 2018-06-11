@@ -20,17 +20,29 @@
         font-family: Verdana, Geneva, sans-serif;
         background-color: #EEFF99; padding: 5px; margin: 5px"
       onkeyup="onCodeUpdate()">{{ code }}</textarea>
+    <div>
+      <a download="code.wasm" id="downloadLink" href="#" style="display:none">
+        <button style="width: 100px; height: 35px">
+          Download wasm
+        </button>
+      </a>
+    </div>
+    <br>
 
     <script>
       let exportFunctions;
       let lastCodeValue = null;
       function onCodeUpdate() {
         if(lastCodeValue !== document.getElementById('code').value) {
+          document.getElementById("downloadLink").style.display = "none";
           lastCodeValue = document.getElementById('code').value;
           add = null;
           compile(document.getElementById('code').value, exports => {
             exportFunctions = exports;
             updateEports(exportFunctions);
+            document.getElementById("downloadLink").href = "//{{ host }}/compile?code="
+              + encodeURIComponent(lastCodeValue);
+            document.getElementById("downloadLink").style.display = "";
           });
         }
       }
